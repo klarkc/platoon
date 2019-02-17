@@ -1,0 +1,16 @@
+{
+  "name": "poha-multiplayer",
+  "version": "1.0.0",
+  "description": "Platform multiplayer game",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "game",
+    "websocket",
+    "platform"
+  ],
+  "author": "Walker at praiseweb.com.br",
+  "license": "MIT"
+}
