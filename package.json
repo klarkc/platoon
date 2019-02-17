@@ -1,0 +1,11 @@
+{
+  "name": "poha-multiplayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Walker at praiseweb.com.br",
+  "license": "MIT"
+}
