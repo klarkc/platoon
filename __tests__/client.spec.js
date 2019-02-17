@@ -1,6 +1,6 @@
 const express = require('express');
 
-const client = require('./client.js');
+const client = require('../client.js');
 
 jest.mock('express', () => require('jest-express'));
 
