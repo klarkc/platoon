@@ -4,8 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "nodemon --exec babel-node server/index.js  --ignore client"
   },
   "author": "Walker at praiseweb.com.br",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-preset-env": "^1.7.0",
+    "css-loader": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.1.0",
+    "nodemon": "^1.18.10",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.4",
+    "webpack-dev-middleware": "^3.5.2",
+    "webpack-livereload-plugin": "^2.2.0"
+  }
 }
