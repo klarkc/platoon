@@ -19,6 +19,7 @@
     "jest-express": "^1.10.0"
   },
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "modules-middleware": "^0.7.3"
   }
 }

@@ -1,15 +1,18 @@
 const express = require('express');
+const modulesMiddleware = require('modules-middleware');
 
 const client = require('../client.js');
 
 jest.mock('express', () => require('jest-express'));
+jest.mock('modules-middleware');
 
 describe('client', () => {
-    it('set game static directories', () => {
+    it('set game middlewares', () => {
         const app = client();
         expect(express.static).toHaveBeenCalledWith('public');
+        expect(modulesMiddleware).toHaveBeenCalledWith('libs');
         expect(app).toBeInstanceOf(express.Express);
-        expect(app.use).toBeCalled();
+        expect(app.use).toHaveBeenCalledTimes(2);
     });
 
     it('listen on 3000 port in localhost', () => {
