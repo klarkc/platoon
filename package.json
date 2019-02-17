@@ -12,5 +12,12 @@
     "platform"
   ],
   "author": "Walker at praiseweb.com.br",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^24.1.0",
+    "jest-express": "^1.10.0"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
