@@ -12,8 +12,14 @@ describe('client', () => {
         expect(app.use).toBeCalled();
     });
 
-    it('listen on 3000 port with callback', () => {
+    it('listen on 3000 port in localhost', () => {
         const app = client(3000, 'localhost');
+        expect(app).toBeInstanceOf(express.Express);
+        expect(app.listen).toHaveBeenCalledWith(3000, 'localhost');
+    });
+
+    it('listen with def args', () => {
+        const app = client();
         expect(app).toBeInstanceOf(express.Express);
         expect(app.listen).toHaveBeenCalledWith(3000, 'localhost');
     });
