@@ -12,9 +12,9 @@ describe('client', () => {
         expect(app.use).toBeCalled();
     });
 
-    it('listen on 3000 port', () => {
-        const app = client();
+    it('listen on 3000 port with callback', () => {
+        const app = client(3000, 'localhost');
         expect(app).toBeInstanceOf(express.Express);
-        expect(app.listen).toHaveBeenCalledWith(3000);
+        expect(app.listen).toHaveBeenCalledWith(3000, 'localhost');
     });
 })

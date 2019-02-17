@@ -1,8 +1,8 @@
 const express = require('express');
 
-module.exports = () => {
+module.exports = (port = 3000, hostname = 'localhost') => {
     const app = express();
     app.use(express.static('public'));
-    app.listen(3000);
+    app.listen(port, hostname);
     return app;    
 }
