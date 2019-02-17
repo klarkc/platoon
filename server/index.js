@@ -8,6 +8,8 @@ app.use(webpackMiddleware(webpack(Object.assign(webpackConfig, {
     mode: process.env.NODE_ENV || 'development',
 }))));
 
-app.listen(4000, () => {
+app.listen(8080, () => {
     console.log('Listening');
 });
+
+export default app;
