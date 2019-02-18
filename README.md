@@ -1,4 +1,4 @@
-# poha-multiplayer
+# platoon
 
 ## Usage
 
