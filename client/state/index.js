@@ -1,3 +1,4 @@
+import { createAvatarPlayer } from '../player';
 
 const state = {
     server: null,
@@ -5,8 +6,25 @@ const state = {
     cursors: null,
     scoreText: null,
     player: null,
+    players: {},
     score: 0,
     gameOver: false,
+}
+
+export function addNewPlayer(data) {
+    console.log('added-player', data);
+    if (!state.players[data.id]) {
+        const player = createAvatarPlayer(state.scene, state, data);
+        state.players[data.id] = player;
+    }
+}
+
+export function setServerListeners() {
+    const {server} = state;
+    server.on('hey', (socket) => {
+        console.log('hey!');
+    })
+    server.on('added-player', addNewPlayer);
 }
 
 export function collectGold(player, gold) {

@@ -30,8 +30,11 @@ export function createPlayer(scene, state) {
         repeat: -1
     });
 
-    state.server.emit('add-player');
+    return player;
+}
 
+export function createAvatarPlayer(scene, state, data) {
+    const player = scene.physics.add.sprite(data.x, data.y, 'dude');
     return player;
 }
 
