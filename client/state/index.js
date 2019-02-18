@@ -14,11 +14,13 @@ const state = {
 }
 
 export function updateServer() {
-    state.server.emit('move-player', {
-        id: state.playerId,
-        x: state.player.x,
-        y: state.player.y,
-    });
+    if (state.player.body.speed > 1) {
+        state.server.emit('move-player', {
+            id: state.playerId,
+            x: state.player.x,
+            y: state.player.y,
+        });
+    }
 }
 
 export function addNewPlayer(data) {
