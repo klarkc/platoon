@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-import { createPlayer } from './player';
+import { createPlayer, createPlayerAnimations } from './player';
 import { createPlatforms } from './platform';
 import { createGolds } from './gold';
 import { createSky } from './sky';
@@ -14,6 +14,8 @@ export default function create() {
 
     const server = io.connect();
     setState({server});
+
+    createPlayerAnimations(scene);
 
     const sky = createSky(scene, state);   
     const platforms = createPlatforms(scene, state);

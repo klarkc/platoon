@@ -5,11 +5,7 @@ export function loadPlayer(scene) {
     );
 }
 
-export function createPlayer(scene, state) {
-    const player = scene.physics.add.sprite(300, 300, 'dude');
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-
+export function createPlayerAnimations(scene) {
     scene.anims.create({
         key: 'left',
         frames: scene.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -29,15 +25,28 @@ export function createPlayer(scene, state) {
         frameRate: 10,
         repeat: -1
     });
+}
 
+export function createPlayer(scene, state) {
+    const player = scene.physics.add.sprite(300, 300, 'dude');
+    player.setBounce(0.2);
+    player.setCollideWorldBounds(true);
     return player;
 }
 
 export function createAvatarPlayer(scene, state, data) {
     const player = scene.physics.add.sprite(data.x, data.y, 'dude');
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
+    player.body.allowGravity = false;
     return player;
+}
+
+export function updatePlayersAnimation(scene, {players}) {
+    Object.keys(players).forEach(playerId => {
+        const {body} = players[playerId];
+        if(body.speed > 1) {
+            console.log(body.velocity);
+        }
+    })
 }
 
 export function updatePlayer(scene, {cursors, player}) {
