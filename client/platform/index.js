@@ -3,7 +3,7 @@ export function loadPlatform(scene) {
 }
 
 export function createPlatforms(scene) {
-    platforms = scene.physics.add.staticGroup();
+    const platforms = scene.physics.add.staticGroup();
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
     platforms.create(600, 400, 'ground');
     platforms.create(50, 250, 'ground');
