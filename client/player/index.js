@@ -35,6 +35,8 @@ export function createPlayer(scene, state) {
 
 export function createAvatarPlayer(scene, state, data) {
     const player = scene.physics.add.sprite(data.x, data.y, 'dude');
+    player.setBounce(0.2);
+    player.setCollideWorldBounds(true);
     return player;
 }
 

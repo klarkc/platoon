@@ -34,6 +34,4 @@ export default function create() {
     setState({scoreText, cursors, player, server, scene});
 
     setServerListeners();
-
-    server.emit('add-player');
 }

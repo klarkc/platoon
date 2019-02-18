@@ -24,15 +24,21 @@ const io = SocketIO(server);
 let lastPlayerID = 0;
 
 io.on('connection', (socket) => {
-    socket.on('add-player', () => {
+    socket.emit('connected-player', ++lastPlayerID);
+
+    socket.on('add-player', (id) => {
         const player = {
-            id: ++lastPlayerID,
+            id,
             x: randomInt(100, 400),
             y: randomInt(100, 400),
         }
         console.log('add-player', player);
         io.emit('added-player', player);
-    })
+    });
+    socket.on('move-player', function (data) {
+        console.log('move-player ', data);
+        io.emit('moved-player', data);
+    });
 })
 
 server.listen(8080, () => {
