@@ -1,5 +1,6 @@
 
 const state = {
+    server: null,
     scene: null,
     cursors: null,
     scoreText: null,

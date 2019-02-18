@@ -5,7 +5,7 @@ export function loadPlayer(scene) {
     );
 }
 
-export function createPlayer(scene) {
+export function createPlayer(scene, state) {
     const player = scene.physics.add.sprite(300, 300, 'dude');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
@@ -29,6 +29,8 @@ export function createPlayer(scene) {
         frameRate: 10,
         repeat: -1
     });
+
+    state.server.emit('add-player');
 
     return player;
 }

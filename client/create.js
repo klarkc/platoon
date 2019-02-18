@@ -1,20 +1,26 @@
+import socket from 'socket.io-client';
+
 import { createPlayer } from './player';
 import { createPlatforms } from './platform';
 import { createGolds } from './gold';
 import { createSky } from './sky';
 import { createBombs } from './bomb';
 import { createScore } from './ui';
-import setState, { collectGold, hitBomb } from './state';
+import setState, { collectGold, hitBomb, getState } from './state';
 
 export default function create() {
     const scene = this;
+    const state = getState();
 
-    const sky = createSky(scene);   
-    const platforms = createPlatforms(scene);
-    const golds = createGolds(scene);
-    const player = createPlayer(scene);
-    const bombs = createBombs(scene);
-    const scoreText = createScore(scene);
+    const server = socket();
+    setState({server});
+
+    const sky = createSky(scene, state);   
+    const platforms = createPlatforms(scene, state);
+    const golds = createGolds(scene, state);
+    const player = createPlayer(scene, state);
+    const bombs = createBombs(scene, state);
+    const scoreText = createScore(scene, state);
     const cursors = scene.input.keyboard.createCursorKeys();
 
     scene.physics.add.collider(player, platforms);
@@ -25,5 +31,5 @@ export default function create() {
     scene.physics.add.collider(bombs, platforms);
     scene.physics.add.collider(player, bombs, hitBomb, null, scene);
 
-    setState({scoreText, cursors, player});
+    setState({scoreText, cursors, player, server});
 }
