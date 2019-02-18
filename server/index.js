@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
         io.emit('added-player', player);
     });
     socket.on('move-player', function (data) {
-        console.log('move-player ', data);
+        // console.log('move-player ', data);
         io.emit('moved-player', data);
     });
 })

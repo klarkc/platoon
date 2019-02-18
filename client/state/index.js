@@ -35,7 +35,7 @@ export function movePlayer(data) {
     const player = state.players[data.id];
     const distance = Phaser.Math.Distance.Between(player.x, player.y, data.x, data.y);
     if (distance > 0) {
-        console.log('moved-player', player.x, player.y, data.x, data.y, distance);
+        // console.log('moved-player', player.x, player.y, data.x, data.y, distance);
         const duration = distance*10;
         const tween = state.scene.add.tween({
             x: data.x,
