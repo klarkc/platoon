@@ -27,16 +27,10 @@ export function createPlayerAnimations(scene) {
     });
 }
 
-export function createPlayer(scene, state) {
-    const player = scene.physics.add.sprite(300, 300, 'dude');
+export function createPlayer(scene, state, x = 300, y = 300) {
+    const player = scene.physics.add.sprite(x, y, 'dude');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
-    return player;
-}
-
-export function createAvatarPlayer(scene, state, data) {
-    const player = scene.physics.add.sprite(data.x, data.y, 'dude');
-    player.body.allowGravity = false;
     return player;
 }
 

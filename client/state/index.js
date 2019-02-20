@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { createAvatarPlayer } from '../player';
+import { createPlayer } from '../player';
 
 const state = {
     server: null,
@@ -26,7 +26,7 @@ export function updateServer() {
 export function addNewPlayer(data) {
     console.log('added-player', data);
     if (!state.players[data.id]) {
-        const player = createAvatarPlayer(state.scene, state, data);
+        const player = createPlayer(state.scene, state, data.x, data.y);
         state.players[data.id] = player;
     }
 }
