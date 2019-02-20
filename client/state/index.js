@@ -15,16 +15,27 @@ const state = {
 
 export function updateServer() {
     const vel = state.player.body.velocity;
-    if (vel.x || vel.y > 1) {
+    const speed = state.player.body.speed;
+    const {x, y} = state.player.body;
+    if (speed > 1) {
         state.server.emit('move-player', {
             id: state.playerId,
             velocity: vel,
+        });
+
+    }
+
+    if (speed <= 1) {
+        state.server.emit('stop-player', {
+            id: state.playerId,
+            x,
+            y,
         });
     }
 }
 
 export function addNewPlayer(data) {
-    console.log('added-player', data);
+    // console.log('added-player', data);
     if (!state.players[data.id]) {
         const player = createPlayer(state.scene, state, data.x, data.y);
         state.players[data.id] = player;
@@ -45,8 +56,21 @@ export function movePlayer(data) {
     player.body.velocity.y = y;
 }
 
+export function stopPlayer(data) {
+    const { id, x, y } = data;
+    
+
+    if (state.id === id) return;
+    if (!state.players[id]) addNewPlayer(data);
+    const body = state.players[id].body;
+    body.velocity.x = 0;
+    body.velocity.y = 0;
+    body.x = x;
+    body.y = y;    
+}
+
 export function setPlayerId(id) {
-    console.log('connected-player', id);
+    // console.log('connected-player', id);
     state.playerId = id;
     state.server.emit('add-player', state.playerId);
 }
@@ -56,6 +80,7 @@ export function setServerListeners() {
     server.on('connected-player', setPlayerId);
     server.on('added-player', addNewPlayer);
     server.on('moved-player', movePlayer);
+    server.on('stoped-player', stopPlayer);
 }
 
 export function collectGold(player, gold) {

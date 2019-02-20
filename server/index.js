@@ -39,6 +39,10 @@ io.on('connection', (socket) => {
         console.log('move-player ', data);
         io.emit('moved-player', data);
     });
+    socket.on('stop-player', function (data) {
+        console.log('stop-player ', data);
+        io.emit('stoped-player', data);
+    });
 })
 
 server.listen(8080, () => {

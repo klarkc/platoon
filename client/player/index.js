@@ -38,7 +38,7 @@ export function updatePlayersAnimation(scene, {players}) {
     Object.keys(players).forEach(playerId => {
         const {body} = players[playerId];
         if(body.speed > 1) {
-            console.log(body.velocity);
+            // console.log(body.velocity);
         }
     })
 }
