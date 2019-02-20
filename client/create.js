@@ -20,18 +20,23 @@ export default function create() {
     const sky = createSky(scene, state);   
     const platforms = createPlatforms(scene, state);
     const golds = createGolds(scene, state);
+    const playerCollisions = [
+        { target: platforms },
+        { target: bombs, callback: hitBomb },
+    ];
+    const playerOverlaps = [
+        { target: golds, callback: collectGold },
+    ];
+    setState({playerCollisions, playerOverlaps});
     const player = createPlayer(scene, state);
     const bombs = createBombs(scene, state);
     const scoreText = createScore(scene, state);
     const cursors = scene.input.keyboard.createCursorKeys();
-
-    scene.physics.add.collider(player, platforms);
+    
     scene.physics.add.collider(platforms, golds);
-    scene.physics.add.overlap(player, golds, collectGold, null, scene);
 
 
     scene.physics.add.collider(bombs, platforms);
-    scene.physics.add.collider(player, bombs, hitBomb, null, scene);
 
     setState({scoreText, cursors, player, server, scene});
 

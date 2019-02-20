@@ -1,5 +1,5 @@
 import { updatePlayer, updatePlayersAnimation} from './player';
-import {getState, updateServer} from './state';
+import {getState} from './state';
 
 let unsyncTicks = 3;
 
@@ -10,7 +10,6 @@ export default function update() {
     updatePlayer(scene, state);
     if (--unsyncTicks < 0) {
         unsyncTicks = 3;
-        updateServer();
         updatePlayersAnimation(scene, state);
     }
 }

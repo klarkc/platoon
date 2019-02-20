@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 export function loadPlayer(scene) {
     scene.load.spritesheet('dude',
         'assets/sprites/dude.png',
@@ -29,8 +31,15 @@ export function createPlayerAnimations(scene) {
 
 export function createPlayer(scene, state, x = 300, y = 300) {
     const player = scene.physics.add.sprite(x, y, 'dude');
+    const {playerCollisions, playerOverlaps} = state;
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+    playerCollisions.forEach(({target, callback}) => {
+        scene.physics.add.collider(player, target, callback, null, scene);
+    });
+    playerOverlaps.forEach(({target, callback}) => {
+        scene.physics.add.overlap(player, target, callback, null, scene);
+    });
     return player;
 }
 
@@ -43,21 +52,43 @@ export function updatePlayersAnimation(scene, {players}) {
     })
 }
 
-export function updatePlayer(scene, {cursors, player}) {
-    if (cursors.left.isDown) {
+export function updatePlayer(scene, {cursors, player, playerId, server}) {
+    const updateServer = () => {
+        const {velocity} = player.body;
+        server.emit('move-player', {
+            id: playerId,
+            velocity,
+        });
+    }
+    const K = Phaser.Input.Keyboard;
+    const l = cursors.left;
+    const r = cursors.right;
+    const u = cursors.up;
+    const d = cursors.down;
+    
+    if (l.isDown) {
         player.setVelocityX(-160);
 
         player.anims.play('left', true);
+        updateServer();
     }
-    else if (cursors.right.isDown) {
+    else if (r.isDown) {
         player.setVelocityX(160);
 
         player.anims.play('right', true);
+        updateServer();
     }
     else {
         player.setVelocityX(0);
-
         player.anims.play('turn');
+    }
+
+    if (K.JustUp(l) || K.JustUp(r) || K.JustUp(u) || K.JustUp(d)) {
+        server.emit('stop-player', {
+            id: playerId,
+            x: player.body.x,
+            y: player.body.y,
+        });
     }
 
     if (cursors.up.isDown && player.body.touching.down) {

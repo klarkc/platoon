@@ -8,30 +8,11 @@ const state = {
     scoreText: null,
     playerId: null,
     player: null,
+    playerCollisions: [],
+    playerOverlaps: [],
     players: {},
     score: 0,
     gameOver: false,
-}
-
-export function updateServer() {
-    const vel = state.player.body.velocity;
-    const speed = state.player.body.speed;
-    const {x, y} = state.player.body;
-    if (speed > 1) {
-        state.server.emit('move-player', {
-            id: state.playerId,
-            velocity: vel,
-        });
-
-    }
-
-    if (speed <= 1) {
-        state.server.emit('stop-player', {
-            id: state.playerId,
-            x,
-            y,
-        });
-    }
 }
 
 export function addNewPlayer(data) {
@@ -63,8 +44,7 @@ export function stopPlayer(data) {
     if (state.id === id) return;
     if (!state.players[id]) addNewPlayer(data);
     const body = state.players[id].body;
-    body.velocity.x = 0;
-    body.velocity.y = 0;
+    body.stop();
     body.x = x;
     body.y = y;    
 }
