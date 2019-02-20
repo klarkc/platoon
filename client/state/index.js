@@ -14,11 +14,11 @@ const state = {
 }
 
 export function updateServer() {
-    if (state.player.body.speed > 1) {
+    const vel = state.player.body.velocity;
+    if (vel.x || vel.y > 1) {
         state.server.emit('move-player', {
             id: state.playerId,
-            x: state.player.x,
-            y: state.player.y,
+            velocity: vel,
         });
     }
 }
@@ -34,20 +34,15 @@ export function addNewPlayer(data) {
 export function movePlayer(data) {
     if (state.playerId === data.id) return;
     if (!state.players[data.id]) addNewPlayer(data);
+
     const player = state.players[data.id];
-    const distance = Phaser.Math.Distance.Between(player.x, player.y, data.x, data.y);
-    if (distance > 0) {
-        const duration = distance*10;
-        console.log('moved-player', data.id, distance);
-        state.scene.add.tween({
-            x: data.x,
-            y: data.y,
-            targets: player,
-            duration,
-            repeat: 0,
-            yoyo: false,
-        });
-    }
+    const {x, y} = data.velocity;
+    const {oX,oY} = player.body.velocity;
+
+    if (x === oX || y === oY) return;
+
+    player.body.velocity.x = x;
+    player.body.velocity.y = y;
 }
 
 export function setPlayerId(id) {
