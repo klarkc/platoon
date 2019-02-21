@@ -1,5 +1,4 @@
-import Phaser from 'phaser';
-import { createPlayer } from '../player';
+import { createPlayer, updatePlayerAnimation } from '../player';
 
 const state = {
     server: null,
@@ -45,10 +44,14 @@ export function stopPlayer(data) {
 
     if (state.id === id) return;
     if (!state.players[id]) addNewPlayer(data);
-    const body = state.players[id].body;
+    const player = state.players[data.id];
+    const body = player.body;
+    
     body.stop();
     body.x = x;
-    body.y = y;    
+    body.y = y;  
+    
+    updatePlayerAnimation(player);
 }
 
 export function setPlayerId(id) {
