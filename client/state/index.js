@@ -35,6 +35,8 @@ export function movePlayer(data) {
 
     player.body.velocity.x = x;
     player.body.velocity.y = y;
+
+    updatePlayerAnimation(player);
 }
 
 export function stopPlayer(data) {

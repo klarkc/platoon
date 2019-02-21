@@ -43,15 +43,6 @@ export function createPlayer(scene, state, x = 300, y = 300) {
     return player;
 }
 
-export function updatePlayersAnimation(scene, {players}) {
-    Object.keys(players).forEach(playerId => {
-        const {body} = players[playerId];
-        if(body.speed > 1) {
-            // console.log(body.velocity);
-        }
-    })
-}
-
 export function updatePlayer(scene, {cursors, player, playerId, server}) {
     const movePlayer = () => {
         const {velocity} = player.body;
@@ -62,7 +53,6 @@ export function updatePlayer(scene, {cursors, player, playerId, server}) {
     }
 
     const stopPlayer = () => {
-        player.anims.play('turn');
         server.emit('stop-player', {
             id: playerId,
             x: player.body.x,
@@ -77,13 +67,9 @@ export function updatePlayer(scene, {cursors, player, playerId, server}) {
     
     if (l.isDown) {
         player.setVelocityX(-160);
-
-        player.anims.play('left', true);
         movePlayer();
     } else if (r.isDown) {
         player.setVelocityX(160);
-
-        player.anims.play('right', true);
         movePlayer();
     } else {
         player.setVelocityX(0);
@@ -105,5 +91,16 @@ export function updatePlayer(scene, {cursors, player, playerId, server}) {
                 clearInterval(fn);
             }
         }, 100);
+    }
+}
+
+export function updatePlayerAnimation(player) {
+    const {x, y} = player.body.velocity;
+    if (x < -1) {
+        player.anims.play('left', true);
+    } else if (x > 1) {
+        player.anims.play('right', true);
+    } else {
+        player.anims.play('turn', true);
     }
 }
