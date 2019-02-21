@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { createPlayer, updatePlayerAnimation } from '../player';
 
 const state = {
@@ -27,13 +28,21 @@ export function movePlayer(data) {
     if (!state.players[data.id]) addNewPlayer(data);
 
     const player = state.players[data.id];
-    const {x, y} = data.velocity;
+    const {velocity, x, y} = data;
     const {oX,oY} = player.body.velocity;
+    const distance = Phaser.Math.Distance.Between(player.x, player.y, x, y);
 
-    if (x === oX || y === oY) return;
+    if (velocity.x === oX || velocity.y === oY) return;
+    
+    player.body.velocity.x = velocity.x;
+    player.body.velocity.y = velocity.y;
 
-    player.body.velocity.x = x;
-    player.body.velocity.y = y;
+    // player is lagging, hard set position
+    if (distance > 100) {
+        player.body.stop();
+        player.setX(x);
+        player.setY(y);
+    }
 
     updatePlayerAnimation(player);
 }
@@ -46,7 +55,7 @@ export function stopPlayer(data) {
     if (!state.players[id]) addNewPlayer(data);
     const player = state.players[data.id];
     const body = player.body;
-    
+
     body.stop();
     body.x = x;
     body.y = y;  

@@ -49,6 +49,8 @@ export function updatePlayer(scene, {cursors, player, playerId, server}) {
         server.emit('move-player', {
             id: playerId,
             velocity,
+            x: player.x,
+            y: player.y,
         });
     }
 
