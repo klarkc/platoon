@@ -66,6 +66,7 @@ export function updatePlayer(scene, {cursors, player, playerId, server}) {
     const l = cursors.left;
     const r = cursors.right;
     const u = cursors.up;
+    const j = cursors.jump;
     
     if (l.isDown) {
         player.setVelocityX(-160);
@@ -77,7 +78,7 @@ export function updatePlayer(scene, {cursors, player, playerId, server}) {
         player.setVelocityX(0);
     }
 
-    if (cursors.up.isDown && player.body.touching.down) {
+    if ((u.isDown || j.isDown) && player.body.touching.down) {
         player.setVelocityY(-300);
         movePlayer();
     }

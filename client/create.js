@@ -31,12 +31,13 @@ export default function create() {
     const player = createPlayer(scene, state);
     const bombs = createBombs(scene, state);
     const scoreText = createScore(scene, state);
-    const cursors = {
-        up: scene.input.keyboard.addKey('W'),
-        down: scene.input.keyboard.addKey('S'),
-        left: scene.input.keyboard.addKey('A'),
-        right: scene.input.keyboard.addKey('D'),
-    };
+    const cursors = scene.input.keyboard.addKeys({
+        up: 'W',
+        down: 'S',
+        left: 'A',
+        right: 'D',
+        jump: 'SPACE',
+    });
     
     scene.physics.add.collider(platforms, golds);
 
