@@ -53,37 +53,16 @@ export function updatePlayersAnimation(scene, {players}) {
 }
 
 export function updatePlayer(scene, {cursors, player, playerId, server}) {
-    const updateServer = () => {
+    const movePlayer = () => {
         const {velocity} = player.body;
         server.emit('move-player', {
             id: playerId,
             velocity,
         });
     }
-    const K = Phaser.Input.Keyboard;
-    const l = cursors.left;
-    const r = cursors.right;
-    const u = cursors.up;
-    const d = cursors.down;
-    
-    if (l.isDown) {
-        player.setVelocityX(-160);
 
-        player.anims.play('left', true);
-        updateServer();
-    }
-    else if (r.isDown) {
-        player.setVelocityX(160);
-
-        player.anims.play('right', true);
-        updateServer();
-    }
-    else {
-        player.setVelocityX(0);
+    const stopPlayer = () => {
         player.anims.play('turn');
-    }
-
-    if (K.JustUp(l) || K.JustUp(r) || K.JustUp(u) || K.JustUp(d)) {
         server.emit('stop-player', {
             id: playerId,
             x: player.body.x,
@@ -91,7 +70,40 @@ export function updatePlayer(scene, {cursors, player, playerId, server}) {
         });
     }
 
+    const K = Phaser.Input.Keyboard;
+    const l = cursors.left;
+    const r = cursors.right;
+    const u = cursors.up;
+    
+    if (l.isDown) {
+        player.setVelocityX(-160);
+
+        player.anims.play('left', true);
+        movePlayer();
+    } else if (r.isDown) {
+        player.setVelocityX(160);
+
+        player.anims.play('right', true);
+        movePlayer();
+    } else {
+        player.setVelocityX(0);
+    }
+
     if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-300);
+        movePlayer();
+    }
+    
+    if (K.JustUp(l) || K.JustUp(r)) {
+        stopPlayer();
+    }
+
+    if (K.JustUp(u)) {
+        const fn = setInterval(() => {
+            if (player.body.speed < 1) {
+                stopPlayer();
+                clearInterval(fn);
+            }
+        }, 100);
     }
 }
